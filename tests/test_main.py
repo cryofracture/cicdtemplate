@@ -1,6 +1,6 @@
 import unittest
 
-from mainapp import generator
+from mainapp/mainscript import main
 
 def test_sample_single_word():
     l = ('foo', 'bar', 'foobar')
