@@ -8,10 +8,6 @@ env:
 services:
     - docker
 
-branches:
-  only:
-    - master
-
 # Install dependencies
 before_install:
   - wget https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip
