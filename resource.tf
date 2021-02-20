@@ -28,9 +28,9 @@ variable "AWS_SECRET_KEY" {
 }
 
 provider "aws" {
-    access_key = var.AWS_ACCESS_KEY
-    secret_key = var.AWS_SECRET_KEY
-    region     = var.AWS_REGION
+    access_key = "$AWS_ACCESS_KEY"
+    secret_key = "$AWS_SECRET_KEY"
+    region     = var.AWS_REGION"
 }
 
 # resource "aws_instance" "test" {
@@ -106,7 +106,7 @@ resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
 }
 
 resource "aws_ecs_service" "DEMOAPPSERVICE" {
-  name            = "my-first-service"                             # Naming our first service
+  name            = "demoappservice"                             # Naming our first service
   cluster         = aws_ecs_cluster.DEMOAPPCLUSTER.id           # Referencing our created Cluster
   task_definition = aws_ecs_task_definition.DEMOAPPTASK.arn # Referencing the task our service will spin up
   launch_type     = "FARGATE"
