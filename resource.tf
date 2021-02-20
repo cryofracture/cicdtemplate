@@ -5,7 +5,7 @@ variable "AWS_REGION" {
 
 variable "CLUSTER_NODES" {
   type = number
-  default = "$CLUSTER_NODES"
+  default = 3
 }
 
 variable "AMIS" {
