@@ -8,14 +8,14 @@ variable "CLUSTER_NODES" {
   default = 3
 }
 
-variable "AMIS" {
-  type = map(string)
-  default = {
-    us-east-2 = "ami-0996d3051b72b5b2c"
-    us-east-1 = "ami-03d315ad33b9d49c4"
-    us-west-1 = "ami-0ebef2838fb2605b7"
-  }
-}
+# variable "AMIS" {
+#   type = map(string)
+#   default = {
+#     us-east-2 = "ami-0996d3051b72b5b2c"
+#     us-east-1 = "ami-03d315ad33b9d49c4"
+#     us-west-1 = "ami-0ebef2838fb2605b7"
+#   }
+# }
 
 variable "AWS_ACCESS_KEY" {
     type = string
