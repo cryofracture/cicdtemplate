@@ -5,11 +5,9 @@ sudo: required
 services:
     - docker
 
-# Install dependencies
-before_install:
-  - pip install --upgrade pip
+
 install:
-  - pip install pytest==3.0.6
+  - pip install pycspr
   - pip install -r requirements.txt
 
 # Terraform Plan and Apply
@@ -19,7 +17,7 @@ jobs:
     - stage: test app
       if: type IN (push)
       script:
-        - python -m pytest -v
+        # - python -m pytest -v
     # - stage: master-branch terraform plan
     #   # Only run terraform validate and plan state if within a pull request
     #   if: type IN (pull_request)
@@ -45,7 +43,7 @@ jobs:
     #     - terraform init 
     #     - terraform apply 
 
-after_success:
-  - sh .travis/deploy_dockerhub.sh
+# after_success:
+#   - sh .travis/deploy_dockerhub.sh
   # Heroku Deployment:
   #- test "$TRAVIS_BRANCH" = "master" && sh .travis/deploy_heroku.sh
