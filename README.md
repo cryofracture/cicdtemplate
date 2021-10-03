@@ -1,4 +1,4 @@
-# CICD Pipeline with Jenkins, Terraform, Docker, and ECS.
+# CICD Pipeline with Travis, Terraform, Docker, and ECS.
 
 Pushes to Feature Branch are run through terraform planning. 
 

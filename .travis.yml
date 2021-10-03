@@ -1,60 +1,51 @@
 dist: xenial
 language: bash 
 sudo: required
-env:
-  - AWS_ACCESS_KEY="$AWS_ACCESS_KEY"
-  - AWS_SECRET_KEY="$AWS_SECRET_KEY"
 
 services:
     - docker
 
 # Install dependencies
 before_install:
-  #- pip install --upgrade pip
-  - wget https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip
-  - unzip terraform_0.13.2_linux_amd64.zip
-  - sudo mv terraform /usr/local/bin/
-  - rm terraform_0.13.2_linux_amd64.zip
+  - pip install --upgrade pip
 install:
-  #- pip install pytest==3.0.6
-  #- pip install -r requirements.txt
+  - pip install pytest==3.0.6
+  - pip install -r requirements.txt
 
 # Terraform Plan and Apply
 # Plan only on pull requests, Apply on merged code
 jobs:
   include:
-    # - stage: test app
-    #   if: type IN (push)
+    - stage: test app
+      if: type IN (push)
+      script:
+        - python -m pytest -v
+    # - stage: master-branch terraform plan
+    #   # Only run terraform validate and plan state if within a pull request
+    #   if: type IN (pull_request)
     #   script:
-    #     - python -m pytest -v
-    - stage: master-branch terraform plan
-      # Only run terraform validate and plan state if within a pull request
-      if: type IN (pull_request)
-      script:
-        - echo "Executing Terraform Plan on pull request code"
-        - terraform init 
-        - terraform validate 
-        - terraform plan 
-    - stage: feature branch terraform plan/apply
-      if: type IN (push) and branch = feature
-      script:
-        - echo "Executing Terraform Plan on pull request code"
-        - terraform init 
-        - terraform validate 
-        - terraform plan 
-    - stage: terraform apply
-      # Only run terraform apply stage if outside of a pull request
-      if: type IN (push) and branch = master
-      script:
-        - echo "Executing Terraform Apply on merged code"
-        # ECR Deployment
-        - sh .travis/deploy_ecr.sh --aws $AWS_ACCOUNT --region $AWS_REGION
-        - terraform init 
-        - terraform apply 
+    #     - echo "Executing Terraform Plan on pull request code"
+    #     - terraform init 
+    #     - terraform validate 
+    #     - terraform plan 
+    # - stage: feature branch terraform plan/apply
+    #   if: type IN (push) and branch = feature
+    #   script:
+    #     - echo "Executing Terraform Plan on pull request code"
+    #     - terraform init 
+    #     - terraform validate 
+    #     - terraform plan 
+    # - stage: terraform apply
+    #   # Only run terraform apply stage if outside of a pull request
+    #   if: type IN (push) and branch = master
+    #   script:
+    #     - echo "Executing Terraform Apply on merged code"
+    #     # ECR Deployment
+    #     - sh .travis/deploy_ecr.sh --aws $AWS_ACCOUNT --region $AWS_REGION
+    #     - terraform init 
+    #     - terraform apply 
 
 after_success:
   - sh .travis/deploy_dockerhub.sh
-  - pip install --user awscli
-  - export PATH=$PATH:$HOME/.local/bin
   # Heroku Deployment:
   #- test "$TRAVIS_BRANCH" = "master" && sh .travis/deploy_heroku.sh
