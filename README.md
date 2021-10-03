@@ -1,8 +1,24 @@
-# CICD Pipeline with Travis, Terraform, Docker, and ECS.
+[![Build Status](https://app.travis-ci.com/cryofracture/cicdtemplate.svg?branch=feature-rebuild_app_env)](https://app.travis-ci.com/cryofracture/cicdtemplate)
+# Cryo's CICD Template, with Casper!
 
-Pushes to Feature Branch are run through terraform planning. 
+An example CICD pipeline utilizing:
+    
+    Docker
+    Pycspr
+    Dockerhub image deployment
+    AWS ECR publishing
 
-Pull requests are rerun through the travis jobs to reconfirm build success.
+    (and soon):
+    AWS ECS deployment of container for interaction with
 
-Pushes to master deploy to new cluster in Amazon ECS with required ALB, security groups, task defenition, subnets, and nodes in the cluster.
+# Deploy reliably
+Using various checks, ensure that no failing commit docker image is deployed to any infrastructure or public repository.
 
+
+# Test securely
+Tests for the pycspr image will be built to ensure longevity of the pycspr SDK.
+
+# ECS Deployment option with Terraform
+As an alternative, a terraform plan CI build will be created to ensure ECS deployment success. (WIP)
+
+# 
