@@ -5,15 +5,17 @@ import binascii
 import unittest
 from py_casper_tools.casper_tools import get_account_info, get_account_main_purse_uref, get_auction_info, get_state_root_hash
 
-import pycspr
-from pycspr.client import NodeClient
-from pycspr.client import NodeConnectionInfo
-from pycspr.crypto import KeyAlgorithm
-from pycspr.types import PrivateKey
-from pycspr.types import Deploy
-from pycspr.types import PublicKey
+import pycspr #type: ignore
+from pycspr.client import NodeClient #type: ignore
+from pycspr.client import NodeConnectionInfo #type: ignore
+from pycspr.crypto import KeyAlgorithm #type: ignore
+from pycspr.types import PrivateKey #type: ignore
+from pycspr.types import Deploy #type: ignore
+from pycspr.types import PublicKey #type: ignore
 
 from mainapp import casper_tools
+
+account_key = ""
 
 def test_get_account_info(client):
     print("begin test function")
