@@ -1,8 +1,6 @@
-dist: focal
-addons:
-  apt:
-    sources:
-      - sourceline: 'ppa:deadsnakes/ppa'
+dist: xenial
+language: bash 
+sudo: required
 
 before_install:
   - sudo apt-get update
@@ -19,8 +17,6 @@ install:
   - python3.9 -m pip install pycspr
   - python3.9 -m pip install -r requirements.txt
 
-# Terraform Plan and Apply
-# Plan only on pull requests, Apply on merged code
 jobs:
   include:
     - stage test pycspr:
@@ -33,16 +29,21 @@ jobs:
       if: type IN (push) and branch = /^feature-.*$/
       script:
         - echo "Testing Docker install"
+        - docker run hello-world
 
     - stage test docker build:
-      iif: type IN (push) and branch = /^feature-.*$/
+      if: type IN (push) and branch = /^feature-.*$/
       script:
         - echo "Testing pycspr Docker image build"
         - docker build -t cryofracture/$TRAVIS_BRANCH .
-        - docker run -d -p 127.0.0.1:80:4567 cryofracture/$TRAVIS_BRANCH" # /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
-        - docker ps -a
+        - docker run -d -p 127.0.0.1:80:4567 cryofracture/$TRAVIS_BRANCH" 
+        - docker ps | grep -q cryo
 
-
+    - stage build terraform plan:
+      if: type IN (push) and branch = /^feature-.*$/
+      script:
+        - terraform init
+        - terraform plan -out=tfplan -input=false 
 
 
 
