@@ -43,6 +43,7 @@ jobs:
       if: type IN (push) and branch = /^feature-.*$/
       script:
         - terraform init
+        - terraform validate -json
         - terraform plan -out=tfplan -input=false 
 
 
